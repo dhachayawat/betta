@@ -121,6 +121,19 @@ class _MainNavigationState extends State<MainNavigation>
                       Container(
                         height: 85,
                         // color: const Color(0xFF0E3311).withOpacity(0.5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24.0),
+                            topRight: Radius.circular(24), // FLUTTER BUG FIX
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(.9),
+                              offset: Offset(0, -1),
+                              blurRadius: 8,
+                            )
+                          ],
+                        ),
                         alignment: Alignment.bottomCenter,
                         constraints: BoxConstraints(
                             maxWidth: 0.5 * MediaQuery.of(context).size.width),

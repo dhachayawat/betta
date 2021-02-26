@@ -65,7 +65,13 @@ class _ProductState extends State<Product> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    color: Colors.blue,
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(4),
+                                      ),
+                                    ),
                                     child: Center(
                                         child: Text(
                                             'Dummy ${index % 2 == 0 ? "Card" : ""}')),
@@ -74,10 +80,15 @@ class _ProductState extends State<Product> {
                                 Container(
                                   // alignment: Alignment.centerLeft,
                                   margin: EdgeInsets.only(top: 5),
-                                  color:
-                                      index == 1 ? Colors.blue : Colors.white,
                                   height: 5,
                                   width: 50,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        index == 1 ? Colors.blue : Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(2),
+                                    ),
+                                  ),
                                 )
                               ],
                             ),
@@ -89,20 +100,29 @@ class _ProductState extends State<Product> {
                 )),
               ),
               Container(
-                width: 120,
+                width: 110,
                 // color: Colors.amber,
                 child: Column(
                   children: [
                     Expanded(
                         child: Container(
-                      // color: Colors.amber,
-                      child: Image.asset('assets/images/logo-betta.png',
+                      child: Image.asset('assets/images/logo-kidde-white.png',
                           height: 56),
                     )),
                     Divider(
                       color: Colors.grey,
                     ),
-                    Expanded(child: Container())
+                    Expanded(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image.asset('assets/icons/facebook-black.png',
+                            height: 32),
+                        Image.asset('assets/icons/instagram-black.png',
+                            height: 32),
+                        Image.asset('assets/icons/line-black.png', height: 32)
+                      ],
+                    ))
                   ],
                 ),
               ),
@@ -111,11 +131,11 @@ class _ProductState extends State<Product> {
         ),
         Expanded(
           child: Container(
-            color: Colors.red,
+            color: Color.fromRGBO(243, 241, 242, 1),
             child: Row(
               children: [
                 Container(
-                  color: Colors.grey,
+                  // color: Colors.grey,
                   width: 240,
                   child: Column(
                     children: [
@@ -194,7 +214,7 @@ class _ProductState extends State<Product> {
                 ),
                 Expanded(
                     child: Container(
-                  color: Colors.green,
+                  // color: Colors.green,
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: GridView.count(
                     // Create a grid with 2 columns. If you change the scrollDirection to
@@ -207,7 +227,16 @@ class _ProductState extends State<Product> {
                     children: List.generate(100, (index) {
                       return Container(
                         padding: EdgeInsets.all(8),
-                        color: index % 2 == 0 ? Colors.amber : Colors.red,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(.5),
+                              offset: Offset(1, 0),
+                              blurRadius: 8,
+                            )
+                          ],
+                        ),
                         child: Column(
                           children: [
                             Expanded(

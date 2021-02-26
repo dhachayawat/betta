@@ -23,24 +23,14 @@ class CategoryModel {
 
   static ProductType _setType(String type) {
     switch (type) {
-      case 'shop':
-        return ProductType.shop;
-      case 'drink':
-        return ProductType.drink;
-      case 'event':
-        return ProductType.event;
-      case 'estate':
-        return ProductType.estate;
-      case 'job':
-        return ProductType.job;
-      case 'restaurant':
-        return ProductType.restaurant;
-      case 'automotive':
-        return ProductType.automotive;
-      case 'hotel':
-        return ProductType.hotel;
+      case 'bottle':
+        return ProductType.bottle;
+      case 'nipple':
+        return ProductType.nipple;
+      case 'accessories':
+        return ProductType.accessories;
       default:
-        return ProductType.more;
+        return ProductType.bottle;
     }
   }
 
