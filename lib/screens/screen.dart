@@ -1,3 +1,8 @@
+export 'product/product.dart';
+export 'store/store.dart';
+export 'story/story.dart';
+export 'support/support.dart';
+export 'product/product.dart';
 export 'home/home.dart';
 export 'language_setting/language_setting.dart';
 export 'loading/loading.dart';

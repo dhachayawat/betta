@@ -14,8 +14,8 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
-  var _bottomNavIndex = 0; //default index of first screen
+  int _selectedIndex = 4;
+  var _bottomNavIndex = 4; //default index of first screen
 
   AnimationController _animationController;
   Animation<double> animation;
@@ -99,107 +99,198 @@ class _MainNavigationState extends State<MainNavigation>
   Widget build(BuildContext context) {
     double sizeFab = 60;
     return Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
+      body: Container(
+        child: Stack(
           children: <Widget>[
-            Home(),
-            Home(),
-            Home(),
-            Home(),
-            Home(),
-          ],
-        ),
-        // floatingActionButton: ScaleTransition(
-        //   scale: animation,
-        //   child: FloatingActionButton(
-        //     elevation: 8,
-        //     backgroundColor: Theme.of(context).primaryColor,
-        //     child: Icon(
-        //       Icons.home,
-        //       color: Colors.white,
-        //       size: 32,
-        //     ),
-        //     onPressed: () {
-        //       setState(() {
-        //         _bottomNavIndex = 4;
-        //       });
-        //     },
-        //   ),
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          Container(
-            height: 100,
-            alignment: Alignment.bottomCenter,
-            constraints: BoxConstraints(
-                maxWidth: 0.5 * MediaQuery.of(context).size.width),
-            child: Stack(
-              children: [
-                Container(
-                  child: AnimatedBottomNavigationBar.builder(
-                    height: 80,
-                    itemCount: iconList.length,
-                    tabBuilder: (int index, bool isActive) {
-                      final color = isActive
-                          ? Theme.of(context).textSelectionColor
-                          : Colors.grey;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            iconList[index],
-                            size: 28,
-                            color: color,
-                          ),
-                          const SizedBox(height: 4),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                                Translate.of(context)
-                                    .translate(_labelMenu[index]),
-                                style: TextStyle(color: color, fontSize: 14)),
-                          )
-                        ],
-                      );
-                    },
-                    backgroundColor: Colors.white,
-                    activeIndex: _bottomNavIndex,
-                    splashColor: Colors.greenAccent,
-                    notchAndCornersAnimation: animation,
-                    splashSpeedInMilliseconds: 300,
-                    notchSmoothness: NotchSmoothness.defaultEdge,
-                    gapLocation: GapLocation.none,
-                    leftCornerRadius: 24,
-                    rightCornerRadius: 24,
-                    onTap: (index) => _onItemTapped(index),
-                  ),
-                ),
-                Positioned(
-                    top: -30,
-                    right:
-                        (0.5 * MediaQuery.of(context).size.width - sizeFab) / 2,
-                    child: ScaleTransition(
-                      scale: animation,
-                      child: FloatingActionButton(
-                        elevation: 3,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        child: Icon(
-                          Icons.home,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _bottomNavIndex = 4;
-                          });
-                        },
-                      ),
-                    ))
+            IndexedStack(
+              index: _bottomNavIndex,
+              children: <Widget>[
+                Product(),
+                Story(),
+                Store(),
+                Support(),
+                Home(),
               ],
             ),
-          )
-        ]));
+            Positioned(
+                bottom: 0,
+                right: ((0.5 * MediaQuery.of(context).size.width) / 2),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 85,
+                        // color: const Color(0xFF0E3311).withOpacity(0.5),
+                        alignment: Alignment.bottomCenter,
+                        constraints: BoxConstraints(
+                            maxWidth: 0.5 * MediaQuery.of(context).size.width),
+                        child: Stack(
+                          children: [
+                            Container(
+                              child: AnimatedBottomNavigationBar.builder(
+                                height: 80,
+                                itemCount: iconList.length,
+                                tabBuilder: (int index, bool isActive) {
+                                  final color = isActive
+                                      ? Theme.of(context).textSelectionColor
+                                      : Colors.grey;
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        iconList[index],
+                                        size: 28,
+                                        color: color,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: Text(
+                                            Translate.of(context)
+                                                .translate(_labelMenu[index]),
+                                            style: TextStyle(
+                                                color: color, fontSize: 14)),
+                                      )
+                                    ],
+                                  );
+                                },
+                                backgroundColor: _bottomNavIndex == 4
+                                    ? Color(0xFFFFFFFF).withOpacity(0.7)
+                                    : Colors.white,
+                                // backgroundColor: Color(0xFFFFFFFF).withOpacity(0.7),
+                                activeIndex: _bottomNavIndex,
+                                splashColor: Colors.greenAccent,
+                                notchAndCornersAnimation: animation,
+                                splashSpeedInMilliseconds: 300,
+                                notchSmoothness: NotchSmoothness.defaultEdge,
+                                gapLocation: GapLocation.none,
+                                leftCornerRadius: 24,
+                                rightCornerRadius: 24,
+                                onTap: (index) => _onItemTapped(index),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ])),
+            Positioned(
+                bottom: 60,
+                right: ((MediaQuery.of(context).size.width) - sizeFab) / 2,
+                child: ScaleTransition(
+                  scale: animation,
+                  child: FloatingActionButton(
+                    elevation: 3,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Icon(
+                      Icons.home,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _bottomNavIndex = 4;
+                      });
+                    },
+                  ),
+                ))
+          ],
+        ),
+      ),
+      // floatingActionButton: ScaleTransition(
+      //   scale: animation,
+      //   child: FloatingActionButton(
+      //     elevation: 8,
+      //     backgroundColor: Theme.of(context).primaryColor,
+      //     child: Icon(
+      //       Icons.home,
+      //       color: Colors.white,
+      //       size: 32,
+      //     ),
+      //     onPressed: () {
+      //       setState(() {
+      //         _bottomNavIndex = 4;
+      //       });
+      //     },
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // bottomNavigationBar:
+      //     Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      //   Container(
+      //     height: 85,
+      //     // color: const Color(0xFF0E3311).withOpacity(0.5),
+      //     alignment: Alignment.bottomCenter,
+      //     constraints: BoxConstraints(
+      //         maxWidth: 0.5 * MediaQuery.of(context).size.width),
+      //     child: Stack(
+      //       children: [
+      //         Container(
+      //           child: AnimatedBottomNavigationBar.builder(
+      //             height: 80,
+      //             itemCount: iconList.length,
+      //             tabBuilder: (int index, bool isActive) {
+      //               final color = isActive
+      //                   ? Theme.of(context).textSelectionColor
+      //                   : Colors.grey;
+      //               return Column(
+      //                 mainAxisSize: MainAxisSize.min,
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Icon(
+      //                     iconList[index],
+      //                     size: 28,
+      //                     color: color,
+      //                   ),
+      //                   const SizedBox(height: 4),
+      //                   Padding(
+      //                     padding: const EdgeInsets.symmetric(horizontal: 8),
+      //                     child: Text(
+      //                         Translate.of(context)
+      //                             .translate(_labelMenu[index]),
+      //                         style: TextStyle(color: color, fontSize: 14)),
+      //                   )
+      //                 ],
+      //               );
+      //             },
+      //             backgroundColor: Colors.white,
+      //             activeIndex: _bottomNavIndex,
+      //             splashColor: Colors.greenAccent,
+      //             notchAndCornersAnimation: animation,
+      //             splashSpeedInMilliseconds: 300,
+      //             notchSmoothness: NotchSmoothness.defaultEdge,
+      //             gapLocation: GapLocation.none,
+      //             leftCornerRadius: 24,
+      //             rightCornerRadius: 24,
+      //             onTap: (index) => _onItemTapped(index),
+      //           ),
+      //         ),
+      //         Positioned(
+      //             top: -30,
+      //             right:
+      //                 (0.5 * MediaQuery.of(context).size.width - sizeFab) / 2,
+      //             child: ScaleTransition(
+      //               scale: animation,
+      //               child: FloatingActionButton(
+      //                 elevation: 3,
+      //                 backgroundColor: Theme.of(context).primaryColor,
+      //                 child: Icon(
+      //                   Icons.home,
+      //                   color: Colors.white,
+      //                   size: 32,
+      //                 ),
+      //                 onPressed: () {
+      //                   setState(() {
+      //                     _bottomNavIndex = 4;
+      //                   });
+      //                 },
+      //               ),
+      //             ))
+      //       ],
+      //     ),
+      //   )
+      // ])
+    );
   }
 }

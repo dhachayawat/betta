@@ -3,6 +3,7 @@ import 'package:betta/configs/config.dart';
 import 'package:betta/utils/other.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -17,11 +18,29 @@ class _HomeState extends State<Home> {
   LanguageBloc _languageBloc;
   List<Locale> _listLanguage = AppLanguage.supportLanguage;
   Locale _languageSelected = AppLanguage.defaultLanguage;
+  VideoPlayerController _videoPlayerController;
+
+  Future<void> initializePlayer() async {}
 
   @override
   void initState() {
     _languageBloc = BlocProvider.of<LanguageBloc>(context);
+    _videoPlayerController =
+        VideoPlayerController.asset('assets/video/betta-video-1.mp4');
+
+    _videoPlayerController.addListener(() {
+      setState(() {});
+    });
+    _videoPlayerController.setLooping(true);
+    _videoPlayerController.initialize().then((_) => setState(() {}));
+    // _delayPlay();
     super.initState();
+  }
+
+  _delayPlay() {
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      _videoPlayerController.play();
+    });
   }
 
   Future<void> _changeLanguage() async {
@@ -38,9 +57,16 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() async {
+    await _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 3,
         leadingWidth: 110,
         leading: Container(
             child: Image.asset('assets/images/logo-betta.png', width: 120)),
@@ -107,8 +133,52 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Container(
-        alignment: Alignment.center,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            VideoPlayer(_videoPlayerController),
+            // ClosedCaption(text: _videoPlayerController.value.caption.text),
+            _ControlsOverlay(controller: _videoPlayerController),
+            VideoProgressIndicator(_videoPlayerController,
+                allowScrubbing: true),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class _ControlsOverlay extends StatelessWidget {
+  const _ControlsOverlay({Key key, this.controller}) : super(key: key);
+
+  final VideoPlayerController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 50),
+          reverseDuration: Duration(milliseconds: 200),
+          child: controller.value.isPlaying
+              ? SizedBox.shrink()
+              : Container(
+                  color: Colors.black26,
+                  child: Center(
+                    child: Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 100.0,
+                    ),
+                  ),
+                ),
+        ),
+        GestureDetector(
+          onTap: () {
+            controller.value.isPlaying ? controller.pause() : controller.play();
+          },
+        )
+      ],
     );
   }
 }

@@ -1,5 +1,9 @@
 {
-  "home": "Home",
+  "price": "Price",
+  "series": "Series",
+  "type": "Type",
+  "size": "Size",
+  "material": "Material",
   "product": "Product",
   "story": "Story",
   "store": "Store",
