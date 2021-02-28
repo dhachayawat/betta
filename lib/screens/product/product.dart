@@ -1,3 +1,8 @@
+import 'package:betta/api/api.dart';
+import 'package:betta/configs/language.dart';
+import 'package:betta/models/model.dart';
+import 'package:betta/models/screen_models/screen_models.dart';
+import 'package:betta/screens/product/product_card_time.dart';
 import 'package:betta/screens/product/product_sliver_app_bar.dart';
 import 'package:betta/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +17,23 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
+  ProductListPageModel _productPage;
+  Locale _languageSelected = AppLanguage.defaultLanguage;
+
   @override
   void initState() {
+    _loadData();
     super.initState();
+  }
+
+  ///Fetch API
+  Future<void> _loadData() async {
+    final ResultApiModel result = await Api.getProduct();
+    if (result.success) {
+      setState(() {
+        _productPage = ProductListPageModel.fromJson(result.data);
+      });
+    }
   }
 
   @override
@@ -58,7 +77,6 @@ class _ProductState extends State<Product> {
                           itemCount: 2,
                           itemBuilder: (BuildContext context, int index) =>
                               Container(
-                            // alignment: Alignment.centerLeft,
                             margin: EdgeInsets.only(right: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,57 +234,7 @@ class _ProductState extends State<Product> {
                     child: Container(
                   // color: Colors.green,
                   padding: EdgeInsets.only(left: 10, right: 10),
-                  child: GridView.count(
-                    // Create a grid with 2 columns. If you change the scrollDirection to
-                    // horizontal, this produces 2 rows.
-                    childAspectRatio: 0.8,
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
-                    // Generate 100 widgets that display their index in the List.
-                    children: List.generate(100, (index) {
-                      return Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(.5),
-                              offset: Offset(1, 0),
-                              blurRadius: 8,
-                            )
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                color: Colors.white,
-                              ),
-                            ),
-                            Container(
-                              height: 80,
-                              alignment: Alignment.centerLeft,
-                              // color: Colors.black,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Item $index',
-                                    style:
-                                        Theme.of(context).textTheme.headline5,
-                                  ),
-                                  Text(
-                                    'Description $index',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                  ),
+                  child: _buildProductCard(),
                 ))
               ],
             ),
@@ -274,5 +242,24 @@ class _ProductState extends State<Product> {
         ),
       ],
     ));
+  }
+
+  Widget _buildProductCard() {
+    if (_productPage?.list == null) {
+      return Center();
+    }
+    Locale myLocale = Localizations.localeOf(context);
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 300,
+          childAspectRatio: 0.7,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+        ),
+        itemBuilder: (context, index) {
+          final item = _productPage.list[index];
+          return ProductCardItem(item: item, local: myLocale);
+        },
+        itemCount: _productPage.list.length);
   }
 }

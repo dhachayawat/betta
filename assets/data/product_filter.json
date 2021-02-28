@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "data": {
+    "bottle": {
+      "series": [
+        "Brain",
+        "Jewel"
+      ],
+      "type": [
+        {
+          "val": "wide",
+          "name": "Wide Neck"
+        },
+        {
+          "val": "slim",
+          "name": "Slim Neck"
+        }
+      ],
+      "material": [
+        "GLASS",
+        "PLASTIC",
+        "PPSU",
+        "PP"
+      ],
+      "size": [
+        "80ml",
+        "120ml",
+        "150ml",
+        "200ml",
+        "240ml",
+        "320ml"
+      ]
+    },
+    "accessories": {
+      "series": [
+        "Brain",
+        "Jewel"
+      ],
+      "type": [
+        {
+          "val": "bottle",
+          "name": "Baby Bottle"
+        },
+        {
+          "val": "bathing",
+          "name": "Bathing Goods"
+        },
+        {
+          "val": "mom",
+          "name": "Mom's Items"
+        }
+      ]
+    }
+  },
+  "message": "get data success"
+}
