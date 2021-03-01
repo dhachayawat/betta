@@ -3,6 +3,8 @@ import 'package:betta/configs/language.dart';
 import 'package:betta/models/model.dart';
 import 'package:betta/models/screen_models/screen_models.dart';
 import 'package:betta/screens/product/product_card_time.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart' as frs;
 import 'package:betta/screens/product/product_sliver_app_bar.dart';
 import 'package:betta/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +20,28 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
   ProductListPageModel _productPage;
-  Locale _languageSelected = AppLanguage.defaultLanguage;
+  List<String> _productGroup = ["bottle", "accessories"];
+  List<String> _productGroupName = ["Baby Bottle", "Accessories"];
+  List<Color> _colorTab = [
+    Color.fromRGBO(246, 137, 163, 1),
+    Color.fromRGBO(166, 113, 159, 1)
+  ];
+  int _tabSelect = 0;
+  int _minPrice = 0;
+  int _maxPrice = 2000;
+  RangeValues _currentRangeValues;
+  final TextEditingController _startValueController = TextEditingController();
+  final TextEditingController _endValueController = TextEditingController();
 
   @override
   void initState() {
     _loadData();
+    double max = 2000;
+    _currentRangeValues = RangeValues(0, max);
+    _startValueController.text = "0";
+    _endValueController.text = max.round().toString();
+    _startValueController.addListener(_onRangeChange);
+    _endValueController.addListener(_onRangeChange);
     super.initState();
   }
 
@@ -36,9 +55,85 @@ class _ProductState extends State<Product> {
     }
   }
 
+  _onRangeChange() {
+    var start = double.parse(_startValueController.text);
+    assert(start is double);
+    var end = double.parse(_endValueController.text);
+    assert(end is double);
+    if (start < _minPrice) {
+      start = (_minPrice + 0.0);
+    } else if (start > end) {
+      start = end - 1;
+    }
+
+    if (end > _maxPrice) {
+      end = (_maxPrice + 0.0);
+    } else if (end < start) {
+      end = start - 1;
+    }
+    setState(() {
+      // _startValueController.text = start.round().toString();
+      // _endValueController.text = end.round().toString();
+      _currentRangeValues = RangeValues(start, end);
+    });
+  }
+
   @override
   void dispose() async {
     super.dispose();
+  }
+
+  Widget _renderGroup() {
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemCount: _productGroup.length,
+      itemBuilder: (BuildContext context, int index) => Container(
+        margin: EdgeInsets.only(right: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _tabSelect = index;
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _colorTab[index],
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4),
+                    ),
+                  ),
+                  child: Center(
+                      child: Text(
+                    '${_productGroupName[index]}',
+                    style: Theme.of(context).textTheme.button.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  )),
+                ),
+              ),
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              // alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(top: 5),
+              height: 5,
+              width: 50,
+              decoration: BoxDecoration(
+                color: index == _tabSelect ? _colorTab[index] : Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(2),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -71,47 +166,7 @@ class _ProductState extends State<Product> {
                     Expanded(
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 2,
-                          itemBuilder: (BuildContext context, int index) =>
-                              Container(
-                            margin: EdgeInsets.only(right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(4),
-                                      ),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                            'Dummy ${index % 2 == 0 ? "Card" : ""}')),
-                                  ),
-                                ),
-                                Container(
-                                  // alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 5),
-                                  height: 5,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        index == 1 ? Colors.blue : Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(2),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        child: _renderGroup(),
                       ),
                     )
                   ],
@@ -165,6 +220,86 @@ class _ProductState extends State<Product> {
                             Text(Translate.of(context).translate('price'))
                           ],
                         ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 80,
+                              child: TextFormField(
+                                cursorColor: Theme.of(context).primaryColor,
+                                controller: _startValueController,
+                                style: TextStyle(fontSize: 14),
+                                autocorrect: true,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(4),
+                                ],
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black))),
+                              ),
+                            ),
+                            Container(
+                              height: 2,
+                              width: 16,
+                              color: Colors.black38,
+                            ),
+                            Container(
+                              width: 80,
+                              child: TextFormField(
+                                cursorColor: Theme.of(context).primaryColor,
+                                controller: _endValueController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(4),
+                                ],
+                                style: TextStyle(fontSize: 14),
+                                autocorrect: true,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black))),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      RangeSlider(
+                        values: _currentRangeValues,
+                        min: 0,
+                        max: _maxPrice.toDouble(),
+                        divisions: _maxPrice,
+                        activeColor: Theme.of(context).primaryColor,
+                        inactiveColor: Color.fromRGBO(95, 183, 164, 0.4),
+                        labels: RangeLabels(
+                          _currentRangeValues.start.round().toString(),
+                          _currentRangeValues.end.round().toString(),
+                        ),
+                        onChanged: (RangeValues values) {
+                          setState(() {
+                            _currentRangeValues = values;
+                            _startValueController.text =
+                                values.start.round().toString();
+                            _endValueController.text =
+                                values.end.round().toString();
+                          });
+                        },
+                        // onChangeStart: (RangeValues values) {
+                        //   setState(() {
+                        //     _startValueController.text =
+                        //         values.start.round().toString();
+                        //   });
+                        // },
+                        // onChangeEnd: (RangeValues values) {
+                        //   setState(() {
+                        //     _endValueController.text =
+                        //         values.end.round().toString();
+                        //   });
+                        // },
                       ),
                       Container(
                           padding: EdgeInsets.only(

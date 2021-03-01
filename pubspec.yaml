@@ -41,6 +41,7 @@ dependencies:
   persistent_bottom_nav_bar: ^3.1.0
   animated_bottom_navigation_bar: ^0.2.1
   toggle_switch: "^0.1.8"
+  flutter_range_slider: "^1.5.0"
 
 dev_dependencies:
   flutter_test:
@@ -61,7 +62,7 @@ flutter:
   assets:
     - assets/data/
     - assets/images/
-    - assets/images/bottle/
+    - assets/images/bottle/wide/
     - assets/locale/
     - assets/icons/
     - assets/video/
