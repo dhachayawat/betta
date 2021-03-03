@@ -32,6 +32,19 @@ class _ProductState extends State<Product> {
   RangeValues _currentRangeValues;
   final TextEditingController _startValueController = TextEditingController();
   final TextEditingController _endValueController = TextEditingController();
+  FocusNode _focusStart = FocusNode();
+  FocusNode _focusEnd = FocusNode();
+  bool _onPrice = true;
+  bool _onSize = true;
+  bool _onSeries = true;
+  bool _onType = true;
+  bool _onMaterial = true;
+  bool _onProductType = true;
+  Map<String, bool> _checkProductType = {
+    "Baby Bottle": false,
+    "Bathing Goods": false,
+    "Mom's Items": false,
+  };
 
   @override
   void initState() {
@@ -40,8 +53,8 @@ class _ProductState extends State<Product> {
     _currentRangeValues = RangeValues(0, max);
     _startValueController.text = "0";
     _endValueController.text = max.round().toString();
-    _startValueController.addListener(_onRangeChange);
-    _endValueController.addListener(_onRangeChange);
+    _focusStart.addListener(_outStart);
+    _focusEnd.addListener(_outEnd);
     super.initState();
   }
 
@@ -55,27 +68,328 @@ class _ProductState extends State<Product> {
     }
   }
 
-  _onRangeChange() {
-    var start = double.parse(_startValueController.text);
-    assert(start is double);
-    var end = double.parse(_endValueController.text);
-    assert(end is double);
-    if (start < _minPrice) {
-      start = (_minPrice + 0.0);
-    } else if (start > end) {
-      start = end - 1;
+  _outStart() {
+    debugPrint("Focus: " + _focusStart.hasFocus.toString());
+    if (!_focusStart.hasFocus) {
+      var start = double.parse(_startValueController.text);
+      assert(start is double);
+      var end = double.parse(_endValueController.text);
+      assert(end is double);
+      if (start < _minPrice) {
+        start = (_minPrice + 0.0);
+      } else if (start > end) {
+        start = end - 1;
+      }
+      setState(() {
+        _startValueController.text = start.round().toString();
+        _currentRangeValues = RangeValues(start, end);
+      });
     }
+  }
 
-    if (end > _maxPrice) {
-      end = (_maxPrice + 0.0);
-    } else if (end < start) {
-      end = start - 1;
+  _outEnd() {
+    if (!_focusEnd.hasFocus) {
+      var start = double.parse(_startValueController.text);
+      assert(start is double);
+      var end = double.parse(_endValueController.text);
+      assert(end is double);
+      if (end > _maxPrice) {
+        end = (_maxPrice + 0.0);
+      } else if (end < start) {
+        end = start - 1;
+      }
+      setState(() {
+        _endValueController.text = end.round().toString();
+        _currentRangeValues = RangeValues(start, end);
+      });
     }
-    setState(() {
-      // _startValueController.text = start.round().toString();
-      // _endValueController.text = end.round().toString();
-      _currentRangeValues = RangeValues(start, end);
-    });
+  }
+
+  Widget _sideBarFilter() {
+    return Container(
+      alignment: Alignment.topLeft,
+      // color: Colors.grey,
+      width: 240,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _onPrice = !_onPrice;
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.only(top: 16),
+                alignment: Alignment.centerLeft,
+                color: Color(0x00000000),
+                child: Row(
+                  children: [
+                    Icon(_onPrice ? Icons.arrow_drop_down : Icons.arrow_right),
+                    Text(Translate.of(context).translate('price'))
+                  ],
+                ),
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Divider()),
+            Visibility(
+              visible: _onPrice,
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 8, right: 8, top: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 80,
+                            child: TextFormField(
+                              focusNode: _focusStart,
+                              cursorColor: Theme.of(context).primaryColor,
+                              controller: _startValueController,
+                              style: TextStyle(fontSize: 14),
+                              autocorrect: true,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(4),
+                              ],
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
+                            ),
+                          ),
+                          Container(
+                            height: 2,
+                            width: 16,
+                            color: Colors.black38,
+                          ),
+                          Container(
+                            width: 80,
+                            child: TextFormField(
+                              focusNode: _focusEnd,
+                              cursorColor: Theme.of(context).primaryColor,
+                              controller: _endValueController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(4),
+                              ],
+                              style: TextStyle(fontSize: 14),
+                              autocorrect: true,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    RangeSlider(
+                      values: _currentRangeValues,
+                      min: 0,
+                      max: _maxPrice.toDouble(),
+                      divisions: _maxPrice,
+                      activeColor: Theme.of(context).primaryColor,
+                      inactiveColor: Color.fromRGBO(95, 183, 164, 0.4),
+                      labels: RangeLabels(
+                        _currentRangeValues.start.round().toString(),
+                        _currentRangeValues.end.round().toString(),
+                      ),
+                      onChanged: (RangeValues values) {
+                        setState(() {
+                          _currentRangeValues = values;
+                          _startValueController.text =
+                              values.start.round().toString();
+                          _endValueController.text =
+                              values.end.round().toString();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _tabSelect == 1,
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: Divider()),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _onProductType = !_onProductType;
+                        });
+                      },
+                      child: Container(
+                        color: Color(0x00000000),
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            Icon(_onProductType
+                                ? Icons.arrow_drop_down
+                                : Icons.arrow_right),
+                            Text(
+                                Translate.of(context).translate('product_type'))
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: ListView(
+                        children: _checkProductType.keys.map((String key) {
+                          print(key);
+                          return CheckboxListTile(
+                            title: Text(key),
+                            value: _checkProductType[key],
+                            activeColor: Colors.deepPurple[400],
+                            checkColor: Colors.white,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _checkProductType[key] = value;
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Divider()),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _onSeries = !_onSeries;
+                });
+              },
+              child: Container(
+                color: Color(0x00000000),
+                padding: EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Icon(_onSeries ? Icons.arrow_drop_down : Icons.arrow_right),
+                    Text(Translate.of(context).translate('series'))
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+                visible: _tabSelect == 0,
+                child: Column(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: Divider()),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _onType = !_onType;
+                        });
+                      },
+                      child: Container(
+                        color: Color(0x00000000),
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          children: [
+                            Icon(_onType
+                                ? Icons.arrow_drop_down
+                                : Icons.arrow_right),
+                            Text(Translate.of(context).translate('type'))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+            Visibility(
+              visible: _tabSelect == 0,
+              child: Column(
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                        left: 10,
+                      ),
+                      child: Divider()),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _onSize = !_onSize;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(top: 10),
+                      color: Color(0x00000000),
+                      child: Row(
+                        children: [
+                          Icon(_onSize
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_right),
+                          Text(Translate.of(context).translate('size'))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: _tabSelect == 0,
+              child: Column(
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(
+                        left: 10,
+                      ),
+                      child: Divider()),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _onMaterial = !_onMaterial;
+                      });
+                    },
+                    child: Container(
+                      color: Color(0x00000000),
+                      padding: EdgeInsets.only(top: 10),
+                      child: Row(
+                        children: [
+                          Icon(_onMaterial
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_right),
+                          Text(Translate.of(context).translate('material'))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
+                child: Divider())
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -207,164 +521,7 @@ class _ProductState extends State<Product> {
             color: Color.fromRGBO(243, 241, 242, 1),
             child: Row(
               children: [
-                Container(
-                  // color: Colors.grey,
-                  width: 240,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_drop_down),
-                            Text(Translate.of(context).translate('price'))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: 80,
-                              child: TextFormField(
-                                cursorColor: Theme.of(context).primaryColor,
-                                controller: _startValueController,
-                                style: TextStyle(fontSize: 14),
-                                autocorrect: true,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(4),
-                                ],
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black))),
-                              ),
-                            ),
-                            Container(
-                              height: 2,
-                              width: 16,
-                              color: Colors.black38,
-                            ),
-                            Container(
-                              width: 80,
-                              child: TextFormField(
-                                cursorColor: Theme.of(context).primaryColor,
-                                controller: _endValueController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(4),
-                                ],
-                                style: TextStyle(fontSize: 14),
-                                autocorrect: true,
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.black))),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      RangeSlider(
-                        values: _currentRangeValues,
-                        min: 0,
-                        max: _maxPrice.toDouble(),
-                        divisions: _maxPrice,
-                        activeColor: Theme.of(context).primaryColor,
-                        inactiveColor: Color.fromRGBO(95, 183, 164, 0.4),
-                        labels: RangeLabels(
-                          _currentRangeValues.start.round().toString(),
-                          _currentRangeValues.end.round().toString(),
-                        ),
-                        onChanged: (RangeValues values) {
-                          setState(() {
-                            _currentRangeValues = values;
-                            _startValueController.text =
-                                values.start.round().toString();
-                            _endValueController.text =
-                                values.end.round().toString();
-                          });
-                        },
-                        // onChangeStart: (RangeValues values) {
-                        //   setState(() {
-                        //     _startValueController.text =
-                        //         values.start.round().toString();
-                        //   });
-                        // },
-                        // onChangeEnd: (RangeValues values) {
-                        //   setState(() {
-                        //     _endValueController.text =
-                        //         values.end.round().toString();
-                        //   });
-                        // },
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          child: Divider()),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_drop_down),
-                            Text(Translate.of(context).translate('series'))
-                          ],
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          child: Divider()),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_drop_down),
-                            Text(Translate.of(context).translate('type'))
-                          ],
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          child: Divider()),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_drop_down),
-                            Text(Translate.of(context).translate('size'))
-                          ],
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          child: Divider()),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Row(
-                          children: [
-                            Icon(Icons.arrow_drop_down),
-                            Text(Translate.of(context).translate('material'))
-                          ],
-                        ),
-                      ),
-                      Container(
-                          padding: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          child: Divider())
-                    ],
-                  ),
-                ),
+                _sideBarFilter(),
                 Expanded(
                     child: Container(
                   // color: Colors.green,

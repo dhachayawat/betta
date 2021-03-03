@@ -98,6 +98,7 @@ class _MainNavigationState extends State<MainNavigation>
   @override
   Widget build(BuildContext context) {
     double sizeFab = 60;
+    double bottomChange = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       body: Container(
         child: Stack(
@@ -112,102 +113,110 @@ class _MainNavigationState extends State<MainNavigation>
                 Home(),
               ],
             ),
-            Positioned(
-                bottom: 0,
-                right: ((0.5 * MediaQuery.of(context).size.width) / 2),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 85,
-                        // color: const Color(0xFF0E3311).withOpacity(0.5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(24.0),
-                            topRight: Radius.circular(24), // FLUTTER BUG FIX
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(.9),
-                              offset: Offset(0, -1),
-                              blurRadius: 8,
-                            )
-                          ],
-                        ),
-                        alignment: Alignment.bottomCenter,
-                        constraints: BoxConstraints(
-                            maxWidth: 0.5 * MediaQuery.of(context).size.width),
-                        child: Stack(
-                          children: [
-                            Container(
-                              child: AnimatedBottomNavigationBar.builder(
-                                height: 80,
-                                itemCount: iconList.length,
-                                tabBuilder: (int index, bool isActive) {
-                                  final color = isActive
-                                      ? Theme.of(context).textSelectionColor
-                                      : Colors.grey;
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        iconList[index],
-                                        size: 28,
-                                        color: color,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Text(
-                                            Translate.of(context)
-                                                .translate(_labelMenu[index]),
-                                            style: TextStyle(
-                                                color: color, fontSize: 14)),
-                                      )
-                                    ],
-                                  );
-                                },
-                                backgroundColor: _bottomNavIndex == 4
-                                    ? Color(0xFFFFFFFF).withOpacity(0.7)
-                                    : Colors.white,
-                                // backgroundColor: Color(0xFFFFFFFF).withOpacity(0.7),
-                                activeIndex: _bottomNavIndex,
-                                splashColor: Colors.greenAccent,
-                                notchAndCornersAnimation: animation,
-                                splashSpeedInMilliseconds: 300,
-                                notchSmoothness: NotchSmoothness.defaultEdge,
-                                gapLocation: GapLocation.none,
-                                leftCornerRadius: 24,
-                                rightCornerRadius: 24,
-                                onTap: (index) => _onItemTapped(index),
-                              ),
+            Visibility(
+              visible: bottomChange == 0,
+              child: Positioned(
+                  bottom: 0,
+                  right: ((0.5 * MediaQuery.of(context).size.width) / 2),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 85,
+                          // color: const Color(0xFF0E3311).withOpacity(0.5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(24.0),
+                              topRight: Radius.circular(24), // FLUTTER BUG FIX
                             ),
-                          ],
-                        ),
-                      )
-                    ])),
-            Positioned(
-                bottom: 60,
-                right: ((MediaQuery.of(context).size.width) - sizeFab) / 2,
-                child: ScaleTransition(
-                  scale: animation,
-                  child: FloatingActionButton(
-                    elevation: 3,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Icon(
-                      Icons.home,
-                      color: Colors.white,
-                      size: 32,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(.9),
+                                offset: Offset(0, -1),
+                                blurRadius: 8,
+                              )
+                            ],
+                          ),
+                          alignment: Alignment.bottomCenter,
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  0.5 * MediaQuery.of(context).size.width),
+                          child: Stack(
+                            children: [
+                              Container(
+                                child: AnimatedBottomNavigationBar.builder(
+                                  height: 80,
+                                  itemCount: iconList.length,
+                                  tabBuilder: (int index, bool isActive) {
+                                    final color = isActive
+                                        ? Theme.of(context).textSelectionColor
+                                        : Colors.grey;
+                                    return Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          iconList[index],
+                                          size: 28,
+                                          color: color,
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Text(
+                                              Translate.of(context)
+                                                  .translate(_labelMenu[index]),
+                                              style: TextStyle(
+                                                  color: color, fontSize: 14)),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                  backgroundColor: _bottomNavIndex == 4
+                                      ? Color(0xFFFFFFFF).withOpacity(0.7)
+                                      : Colors.white,
+                                  // backgroundColor: Color(0xFFFFFFFF).withOpacity(0.7),
+                                  activeIndex: _bottomNavIndex,
+                                  splashColor: Colors.greenAccent,
+                                  notchAndCornersAnimation: animation,
+                                  splashSpeedInMilliseconds: 300,
+                                  notchSmoothness: NotchSmoothness.defaultEdge,
+                                  gapLocation: GapLocation.none,
+                                  leftCornerRadius: 24,
+                                  rightCornerRadius: 24,
+                                  onTap: (index) => _onItemTapped(index),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ])),
+            ),
+            Visibility(
+              visible: bottomChange == 0,
+              child: Positioned(
+                  bottom: 60,
+                  right: ((MediaQuery.of(context).size.width) - sizeFab) / 2,
+                  child: ScaleTransition(
+                    scale: animation,
+                    child: FloatingActionButton(
+                      elevation: 3,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 32,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _bottomNavIndex = 4;
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _bottomNavIndex = 4;
-                      });
-                    },
-                  ),
-                ))
+                  )),
+            )
           ],
         ),
       ),
