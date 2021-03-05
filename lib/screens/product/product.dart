@@ -36,7 +36,7 @@ class _ProductState extends State<Product> {
   FocusNode _focusEnd = FocusNode();
   bool _onPrice = true;
   bool _onSize = true;
-  bool _onSeries = true;
+  bool _onSeries = false;
   bool _onType = true;
   bool _onMaterial = true;
   bool _onProductType = true;
@@ -45,6 +45,33 @@ class _ProductState extends State<Product> {
     "Bathing Goods": false,
     "Mom's Items": false,
   };
+
+  // ประเภทสินค้า
+  bool _chkPdtBottle = false;
+  bool _chkPdtBathing = false;
+  bool _chkPdtMom = false;
+
+  // ซีรี่
+  bool _chkSeriesBrain = false;
+  bool _chkSeriesJewel = false;
+
+  // ประเภทขวด
+  bool _chkTypeWide = false;
+  bool _chkTypeSlim = false;
+
+  // ขนาด
+  bool _chkSize80 = false;
+  bool _chkSize120 = false;
+  bool _chkSize150 = false;
+  bool _chkSize200 = false;
+  bool _chkSize240 = false;
+  bool _chkSize320 = false;
+
+  // วัสดุ
+  bool _checkMaterialGLASS = false;
+  bool _checkMaterialPLASTIC = false;
+  bool _checkMaterialPPSU = false;
+  bool _checkMaterialPP = false;
 
   @override
   void initState() {
@@ -105,6 +132,411 @@ class _ProductState extends State<Product> {
     }
   }
 
+  Widget _optionSeries() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSeriesBrain = !_chkSeriesBrain;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSeriesBrain,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('brain')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSeriesJewel = !_chkSeriesJewel;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSeriesJewel,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('jewel')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _optionProductType() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkPdtBottle = !_chkPdtBottle;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkPdtBottle,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('baby_bottle')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkPdtBathing = !_chkPdtBathing;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkPdtBathing,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('bathing_goods')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(50)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkPdtMom = !_chkPdtMom;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkPdtMom,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('mom_items')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _optionType() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkTypeWide = !_chkTypeWide;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkTypeWide,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('wide_neck')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkTypeSlim = !_chkTypeSlim;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkTypeSlim,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('slim_neck')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(50)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _optionProductSize() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize80 = !_chkSize80;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize80,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("80" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize120 = !_chkSize120;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize120,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("120" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize150 = !_chkSize150;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize150,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("150" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize200 = !_chkSize200;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize200,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("200" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize240 = !_chkSize240;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize240,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("240" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _chkSize320 = !_chkSize320;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _chkSize320,
+                        onChanged: (bool value) {},
+                      ),
+                      Text("320" + Translate.of(context).translate('ml')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _sideBarFilter() {
     return Container(
       alignment: Alignment.topLeft,
@@ -131,11 +563,6 @@ class _ProductState extends State<Product> {
                 ),
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                ),
-                child: Divider()),
             Visibility(
               visible: _onPrice,
               child: Container(
@@ -245,22 +672,10 @@ class _ProductState extends State<Product> {
                         ),
                       ),
                     ),
-                    Container(
-                      child: ListView(
-                        children: _checkProductType.keys.map((String key) {
-                          print(key);
-                          return CheckboxListTile(
-                            title: Text(key),
-                            value: _checkProductType[key],
-                            activeColor: Colors.deepPurple[400],
-                            checkColor: Colors.white,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _checkProductType[key] = value;
-                              });
-                            },
-                          );
-                        }).toList(),
+                    Visibility(
+                      visible: _onProductType,
+                      child: Container(
+                        child: _optionProductType(),
                       ),
                     )
                   ],
@@ -290,6 +705,11 @@ class _ProductState extends State<Product> {
               ),
             ),
             Visibility(
+                visible: _onSeries,
+                child: Container(
+                  child: _optionSeries(),
+                )),
+            Visibility(
                 visible: _tabSelect == 0,
                 child: Column(
                   children: [
@@ -317,6 +737,11 @@ class _ProductState extends State<Product> {
                         ),
                       ),
                     ),
+                    Visibility(
+                        visible: _onType,
+                        child: Container(
+                          child: _optionType(),
+                        ))
                   ],
                 )),
             Visibility(
@@ -347,6 +772,11 @@ class _ProductState extends State<Product> {
                       ),
                     ),
                   ),
+                  Visibility(
+                      visible: _onSize,
+                      child: Container(
+                        child: _optionProductSize(),
+                      ))
                 ],
               ),
             ),

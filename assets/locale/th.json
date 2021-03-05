@@ -1,5 +1,11 @@
 {
   "product_type": "หมวดสินค้า",
+  "baby_bottle": "Baby Bottle",
+  "bathing_goods": "Bathing Goods",
+  "mom_items": "Mom's Items",
+  "wide_neck": "Wide Neck",
+  "slim_neck": "Slim Neck",
+  "ml": "มิลลิลิตร",
   "price": "ราคา",
   "series": "รุ่น",
   "type": "ประเภท",
