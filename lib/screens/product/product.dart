@@ -34,17 +34,17 @@ class _ProductState extends State<Product> {
   final TextEditingController _endValueController = TextEditingController();
   FocusNode _focusStart = FocusNode();
   FocusNode _focusEnd = FocusNode();
+
+  // แถบฟิลเตอร์
+  bool _onFilter = true;
+
+  // ตัวเลือก filter
   bool _onPrice = true;
-  bool _onSize = true;
+  bool _onSize = false;
   bool _onSeries = false;
   bool _onType = true;
   bool _onMaterial = true;
   bool _onProductType = true;
-  Map<String, bool> _checkProductType = {
-    "Baby Bottle": false,
-    "Bathing Goods": false,
-    "Mom's Items": false,
-  };
 
   // ประเภทสินค้า
   bool _chkPdtBottle = false;
@@ -537,6 +537,129 @@ class _ProductState extends State<Product> {
     );
   }
 
+  Widget _optionMaterial() {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _checkMaterialGLASS = !_checkMaterialGLASS;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _checkMaterialGLASS,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('glass')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _checkMaterialPLASTIC = !_checkMaterialPLASTIC;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _checkMaterialPLASTIC,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('plastic')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _checkMaterialPPSU = !_checkMaterialPPSU;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _checkMaterialPPSU,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('ppsu')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _checkMaterialPP = !_checkMaterialPP;
+            });
+          },
+          child: Container(
+            color: Color(0x00000000),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _checkMaterialPP,
+                        onChanged: (bool value) {},
+                      ),
+                      Text(Translate.of(context).translate('pp')),
+                    ],
+                  ),
+                ),
+                Text(
+                  "(5)",
+                  style: TextStyle(color: Colors.grey[500]),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _sideBarFilter() {
     return Container(
       alignment: Alignment.topLeft,
@@ -808,6 +931,11 @@ class _ProductState extends State<Product> {
                       ),
                     ),
                   ),
+                  Visibility(
+                      visible: _onMaterial,
+                      child: Container(
+                        child: _optionMaterial(),
+                      ))
                 ],
               ),
             ),
@@ -889,81 +1017,97 @@ class _ProductState extends State<Product> {
         //     leading: Container(
         //         child: Image.asset('assets/images/logo-betta.png', width: 120)),
         //     actions: []),
+        floatingActionButton: FloatingActionButton(
+          elevation: 8,
+          backgroundColor: Color.fromRGBO(244, 209, 205, 1),
+          child: Icon(
+            !_onFilter ? Icons.filter_alt : Icons.open_in_full,
+            color: Color.fromRGBO(112, 85, 151, 1),
+            size: 32,
+          ),
+          onPressed: () {
+            setState(() {
+              _onFilter = !_onFilter;
+            });
+          },
+        ),
         body: Column(
-      children: [
-        Container(
-          height: 140,
-          color: Colors.white,
-          padding: EdgeInsets.only(top: 20, left: 8, right: 8),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
+          children: [
+            Container(
+              height: 140,
+              color: Colors.white,
+              padding: EdgeInsets.only(top: 20, left: 8, right: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                        child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                              child: Image.asset('assets/images/logo-betta.png',
+                                  height: 56)),
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: _renderGroup(),
+                          ),
+                        )
+                      ],
+                    )),
+                  ),
+                  Container(
+                    width: 110,
+                    // color: Colors.amber,
                     child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                          child: Image.asset('assets/images/logo-betta.png',
-                              height: 56)),
+                      children: [
+                        Expanded(
+                            child: Container(
+                          child: Image.asset(
+                              'assets/images/logo-kidde-white.png',
+                              height: 56),
+                        )),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Expanded(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset('assets/icons/facebook-black.png',
+                                height: 32),
+                            Image.asset('assets/icons/instagram-black.png',
+                                height: 32),
+                            Image.asset('assets/icons/line-black.png',
+                                height: 32)
+                          ],
+                        ))
+                      ],
                     ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: _renderGroup(),
-                      ),
-                    )
-                  ],
-                )),
+                  ),
+                ],
               ),
-              Container(
-                width: 110,
-                // color: Colors.amber,
-                child: Column(
+            ),
+            Expanded(
+              child: Container(
+                color: Color.fromRGBO(243, 241, 242, 1),
+                child: Row(
                   children: [
+                    Visibility(visible: _onFilter, child: _sideBarFilter()),
                     Expanded(
                         child: Container(
-                      child: Image.asset('assets/images/logo-kidde-white.png',
-                          height: 56),
-                    )),
-                    Divider(
-                      color: Colors.grey,
-                    ),
-                    Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset('assets/icons/facebook-black.png',
-                            height: 32),
-                        Image.asset('assets/icons/instagram-black.png',
-                            height: 32),
-                        Image.asset('assets/icons/line-black.png', height: 32)
-                      ],
+                      // color: Colors.green,
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: _buildProductCard(),
                     ))
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Color.fromRGBO(243, 241, 242, 1),
-            child: Row(
-              children: [
-                _sideBarFilter(),
-                Expanded(
-                    child: Container(
-                  // color: Colors.green,
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: _buildProductCard(),
-                ))
-              ],
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 
   Widget _buildProductCard() {
