@@ -68,10 +68,10 @@ class _ProductState extends State<Product> {
   bool _chkSize320 = false;
 
   // วัสดุ
-  bool _checkMaterialGLASS = false;
-  bool _checkMaterialPLASTIC = false;
-  bool _checkMaterialPPSU = false;
-  bool _checkMaterialPP = false;
+  bool _chkMaterialGLASS = false;
+  bool _chkMaterialPLASTIC = false;
+  bool _chkMaterialPPSU = false;
+  bool _chkMaterialPP = false;
 
   @override
   void initState() {
@@ -543,7 +543,7 @@ class _ProductState extends State<Product> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _checkMaterialGLASS = !_checkMaterialGLASS;
+              _chkMaterialGLASS = !_chkMaterialGLASS;
             });
           },
           child: Container(
@@ -554,7 +554,7 @@ class _ProductState extends State<Product> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _checkMaterialGLASS,
+                        value: _chkMaterialGLASS,
                         onChanged: (bool value) {},
                       ),
                       Text(Translate.of(context).translate('glass')),
@@ -572,7 +572,7 @@ class _ProductState extends State<Product> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _checkMaterialPLASTIC = !_checkMaterialPLASTIC;
+              _chkMaterialPLASTIC = !_chkMaterialPLASTIC;
             });
           },
           child: Container(
@@ -583,7 +583,7 @@ class _ProductState extends State<Product> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _checkMaterialPLASTIC,
+                        value: _chkMaterialPLASTIC,
                         onChanged: (bool value) {},
                       ),
                       Text(Translate.of(context).translate('plastic')),
@@ -601,7 +601,7 @@ class _ProductState extends State<Product> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _checkMaterialPPSU = !_checkMaterialPPSU;
+              _chkMaterialPPSU = !_chkMaterialPPSU;
             });
           },
           child: Container(
@@ -612,7 +612,7 @@ class _ProductState extends State<Product> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _checkMaterialPPSU,
+                        value: _chkMaterialPPSU,
                         onChanged: (bool value) {},
                       ),
                       Text(Translate.of(context).translate('ppsu')),
@@ -630,7 +630,7 @@ class _ProductState extends State<Product> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _checkMaterialPP = !_checkMaterialPP;
+              _chkMaterialPP = !_chkMaterialPP;
             });
           },
           child: Container(
@@ -641,7 +641,7 @@ class _ProductState extends State<Product> {
                   child: Row(
                     children: [
                       Checkbox(
-                        value: _checkMaterialPP,
+                        value: _chkMaterialPP,
                         onChanged: (bool value) {},
                       ),
                       Text(Translate.of(context).translate('pp')),
@@ -1008,6 +1008,114 @@ class _ProductState extends State<Product> {
     );
   }
 
+  List<ProductModel> _filterData(List<ProductModel> data) {
+    List<String> series = [];
+    List<String> type = [];
+    List<String> size = [];
+    List<String> material = [];
+    List<String> productType = [];
+    List<ProductModel> lists = [];
+    String typeIndex = "";
+    if (_tabSelect == 0) {
+      typeIndex = "bottle";
+    } else {
+      typeIndex = "accessories";
+    }
+
+    // แบ่งประเภทสินค้า และช่วงราคา
+    lists = data
+        .where((f) =>
+            f.type.toString().split('.').last == typeIndex &&
+            (f.price >= _currentRangeValues.start.round() &&
+                f.price <= _currentRangeValues.end.round()))
+        .toList();
+
+    if (_chkSeriesBrain) {
+      series.add("brain");
+    }
+    if (_chkSeriesJewel) {
+      series.add("jewel");
+    }
+
+    if (series.length > 0) {
+      lists =
+          lists.where((f) => series.contains(f.series.toLowerCase())).toList();
+    }
+
+    if (_tabSelect == 0) {
+      // ถ้าเป็นขวดนม
+
+      // ซีรี่
+      if (_chkTypeSlim) {
+        type.add("slim");
+      }
+      if (_chkTypeWide) {
+        type.add("wide");
+      }
+      if (type.length > 0) {
+        lists = lists
+            .where((f) => type.contains(f.category.toLowerCase()))
+            .toList();
+      }
+
+      // ขนาด
+      if (_chkSize80) {
+        size.add("80ml");
+      }
+      if (_chkSize120) {
+        size.add("120ml");
+      }
+      if (_chkSize150) {
+        size.add("150ml");
+      }
+      if (_chkSize200) {
+        size.add("200ml");
+      }
+      if (_chkSize240) {
+        size.add("240ml");
+      }
+      if (_chkSize320) {
+        size.add("320ml");
+      }
+
+      if (size.length > 0) {
+        lists = lists.where((f) => compareSize(f.size, size)).toList();
+      }
+
+      // วัสดุ
+      if (_chkMaterialGLASS) {
+        material.add("GLASS");
+      }
+      if (_chkMaterialPLASTIC) {
+        material.add("PLASTIC");
+      }
+      if (_chkMaterialPPSU) {
+        material.add("PPSU");
+      }
+      if (_chkMaterialPP) {
+        material.add("PP");
+      }
+
+      if (material.length > 0) {
+        lists = lists
+            .where((f) => material.contains(f.material.toUpperCase()))
+            .toList();
+      }
+    } else {}
+
+    return lists;
+  }
+
+  bool compareSize(List<dynamic> array1, List<dynamic> array2) {
+    List<dynamic> rs = array1
+        .where((item) => array2.contains(item.toString().toLowerCase()))
+        .toList();
+    if (rs.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1114,18 +1222,26 @@ class _ProductState extends State<Product> {
     if (_productPage?.list == null) {
       return Center();
     }
+    List<ProductModel> rs = _filterData(_productPage.list);
     Locale myLocale = Localizations.localeOf(context);
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 300,
-          childAspectRatio: 0.7,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-        ),
-        itemBuilder: (context, index) {
-          final item = _productPage.list[index];
-          return ProductCardItem(item: item, local: myLocale);
-        },
-        itemCount: _productPage.list.length);
+    return rs.length > 0
+        ? GridView.builder(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300,
+              childAspectRatio: 0.7,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+            ),
+            itemBuilder: (context, index) {
+              final item = rs[index];
+              return ProductCardItem(item: item, local: myLocale);
+            },
+            itemCount: rs.length)
+        : Container(
+            alignment: Alignment.center,
+            child: Text(
+              Translate.of(context).translate('product_not_match'),
+              style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            ));
   }
 }

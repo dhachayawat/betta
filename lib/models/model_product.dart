@@ -10,8 +10,11 @@ class ProductModel {
   final String descriptionTH;
   final String image;
   final String category;
+  final String series;
+  final String material;
+  final List<dynamic> size;
   final ProductType type;
-  final num price;
+  final int price;
 
   ProductModel(
     this.id,
@@ -21,6 +24,9 @@ class ProductModel {
     this.description,
     this.descriptionTH,
     this.category,
+    this.series,
+    this.material,
+    this.size,
     this.price,
     this.type,
   );
@@ -46,8 +52,11 @@ class ProductModel {
       json['image'] as String ?? 'Unknown',
       json['description'] as String ?? 'Unknown',
       json['descriptionTH'] as String ?? 'Unknown',
-      json['category'] as String ?? 0,
-      json['price'] as num ?? 0,
+      json['category'] as String ?? 'Unknown',
+      json['series'] as String ?? 'Unknown',
+      json['material'] as String ?? 'Unknown',
+      json['size'] as List<dynamic> ?? [],
+      json['price'] as int ?? 0,
       _setType(json['type']),
     );
   }
