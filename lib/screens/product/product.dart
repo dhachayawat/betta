@@ -1,11 +1,8 @@
 import 'package:betta/api/api.dart';
-import 'package:betta/configs/language.dart';
 import 'package:betta/models/model.dart';
 import 'package:betta/models/screen_models/screen_models.dart';
 import 'package:betta/screens/product/product_card_time.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart' as frs;
-import 'package:betta/screens/product/product_sliver_app_bar.dart';
 import 'package:betta/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +129,7 @@ class _ProductState extends State<Product> {
     }
   }
 
-  Widget _optionSeries() {
+  Widget _optionSeries(int countSeriesBrain, int countSeriesJewel) {
     return Column(
       children: [
         GestureDetector(
@@ -157,7 +154,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSeriesBrain.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -186,7 +183,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSeriesJewel.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -197,7 +194,8 @@ class _ProductState extends State<Product> {
     );
   }
 
-  Widget _optionProductType() {
+  Widget _optionProductType(
+      int countPdtBottle, int countPdtBathing, int countPdtMom) {
     return Column(
       children: [
         GestureDetector(
@@ -222,7 +220,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countPdtBottle.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -251,7 +249,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(50)",
+                  "(${countPdtBathing.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -280,7 +278,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countPdtMom.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -291,7 +289,7 @@ class _ProductState extends State<Product> {
     );
   }
 
-  Widget _optionType() {
+  Widget _optionType(int countTypeWide, int countTypeSlim) {
     return Column(
       children: [
         GestureDetector(
@@ -316,7 +314,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countTypeWide.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -345,7 +343,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(50)",
+                  "(${countTypeSlim.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -356,7 +354,8 @@ class _ProductState extends State<Product> {
     );
   }
 
-  Widget _optionProductSize() {
+  Widget _optionProductSize(int countSize80, int countSize120, int countSize150,
+      int countSize200, int countSize240, int countSize320) {
     return Column(
       children: [
         GestureDetector(
@@ -381,7 +380,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize80.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -410,7 +409,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize120.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -439,7 +438,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize150.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -468,7 +467,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize200.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -497,7 +496,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize240.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -526,7 +525,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countSize320.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -537,7 +536,8 @@ class _ProductState extends State<Product> {
     );
   }
 
-  Widget _optionMaterial() {
+  Widget _optionMaterial(int countMaterialGLASS, int countMaterialPLASTIC,
+      int countMaterialPPSU, int countMaterialPP) {
     return Column(
       children: [
         GestureDetector(
@@ -562,7 +562,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countMaterialGLASS.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -591,7 +591,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countMaterialPLASTIC.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -620,7 +620,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countMaterialPPSU.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -649,7 +649,7 @@ class _ProductState extends State<Product> {
                   ),
                 ),
                 Text(
-                  "(5)",
+                  "(${countMaterialPP.toString()})",
                   style: TextStyle(color: Colors.grey[500]),
                 )
               ],
@@ -660,7 +660,84 @@ class _ProductState extends State<Product> {
     );
   }
 
-  Widget _sideBarFilter() {
+  Widget _renderBodyProduct() {
+    if (_productPage?.list == null) {
+      return Center();
+    }
+    List<ProductModel> price = _filterDataTypeAndPrice(_productPage.list);
+    print(price);
+    List<ProductModel> rs = _filterData(price);
+
+    return Expanded(
+      child: Container(
+        color: Color.fromRGBO(243, 241, 242, 1),
+        child: Row(
+          children: [
+            Visibility(visible: _onFilter, child: _sideBarFilter(price)),
+            Expanded(
+                child: Container(
+              // color: Colors.green,
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: _buildProductCard(rs),
+            ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _sideBarFilter(List<ProductModel> product) {
+    // ประเภทสินค้า
+    int countPdtBottle = 0;
+    int countPdtBathing = 0;
+    int countPdtMom = 0;
+
+    // ซีรี่
+    int countSeriesBrain = 0;
+    int countSeriesJewel = 0;
+
+    // ประเภทขวด
+    int countTypeWide = 0;
+    int countTypeSlim = 0;
+
+    // ขนาด
+    int countSize80 = 0;
+    int countSize120 = 0;
+    int countSize150 = 0;
+    int countSize200 = 0;
+    int countSize240 = 0;
+    int countSize320 = 0;
+
+    // วัสดุ
+    int countMaterialGLASS = 0;
+    int countMaterialPLASTIC = 0;
+    int countMaterialPPSU = 0;
+    int countMaterialPP = 0;
+
+    product.forEach((item) {
+      if (_tabSelect == 0) {
+        if (item.category == "brain") {
+          countSeriesBrain++;
+        } else if (item.category == "jewel") {
+          countSeriesJewel++;
+        }
+      } else {
+        if (item.type.toString().split('.').last == "bottle") {
+          countPdtBottle++;
+        } else if (item.type.toString().split('.').last == "bathing") {
+          countPdtBathing++;
+        } else if (item.type.toString().split('.').last == "mom") {
+          countPdtMom++;
+        }
+
+        if (item.category == "brain") {
+          countSeriesBrain++;
+        } else if (item.category == "jewel") {
+          countSeriesJewel++;
+        }
+      }
+    });
+
     return Container(
       alignment: Alignment.topLeft,
       // color: Colors.grey,
@@ -798,7 +875,8 @@ class _ProductState extends State<Product> {
                     Visibility(
                       visible: _onProductType,
                       child: Container(
-                        child: _optionProductType(),
+                        child: _optionProductType(
+                            countPdtBottle, countPdtBathing, countPdtMom),
                       ),
                     )
                   ],
@@ -830,7 +908,7 @@ class _ProductState extends State<Product> {
             Visibility(
                 visible: _onSeries,
                 child: Container(
-                  child: _optionSeries(),
+                  child: _optionSeries(countSeriesBrain, countSeriesJewel),
                 )),
             Visibility(
                 visible: _tabSelect == 0,
@@ -863,7 +941,7 @@ class _ProductState extends State<Product> {
                     Visibility(
                         visible: _onType,
                         child: Container(
-                          child: _optionType(),
+                          child: _optionType(countTypeWide, countTypeSlim),
                         ))
                   ],
                 )),
@@ -898,8 +976,13 @@ class _ProductState extends State<Product> {
                   Visibility(
                       visible: _onSize,
                       child: Container(
-                        child: _optionProductSize(),
-                      ))
+                          child: _optionProductSize(
+                              countSize80,
+                              countSize120,
+                              countSize150,
+                              countSize200,
+                              countSize240,
+                              countSize320)))
                 ],
               ),
             ),
@@ -934,7 +1017,11 @@ class _ProductState extends State<Product> {
                   Visibility(
                       visible: _onMaterial,
                       child: Container(
-                        child: _optionMaterial(),
+                        child: _optionMaterial(
+                            countMaterialGLASS,
+                            countMaterialPLASTIC,
+                            countMaterialPPSU,
+                            countMaterialPP),
                       ))
                 ],
               ),
@@ -1008,12 +1095,7 @@ class _ProductState extends State<Product> {
     );
   }
 
-  List<ProductModel> _filterData(List<ProductModel> data) {
-    List<String> series = [];
-    List<String> type = [];
-    List<String> size = [];
-    List<String> material = [];
-    List<String> productType = [];
+  List<ProductModel> _filterDataTypeAndPrice(List<ProductModel> data) {
     List<ProductModel> lists = [];
     String typeIndex = "";
     if (_tabSelect == 0) {
@@ -1030,6 +1112,17 @@ class _ProductState extends State<Product> {
                 f.price <= _currentRangeValues.end.round()))
         .toList();
 
+    return lists;
+  }
+
+  List<ProductModel> _filterData(List<ProductModel> lists) {
+    List<String> series = [];
+    List<String> type = [];
+    List<String> size = [];
+    List<String> material = [];
+    List<String> productType = [];
+
+    // ซีรี่
     if (_chkSeriesBrain) {
       series.add("brain");
     }
@@ -1045,7 +1138,7 @@ class _ProductState extends State<Product> {
     if (_tabSelect == 0) {
       // ถ้าเป็นขวดนม
 
-      // ซีรี่
+      // ประเภท
       if (_chkTypeSlim) {
         type.add("slim");
       }
@@ -1097,11 +1190,40 @@ class _ProductState extends State<Product> {
       }
 
       if (material.length > 0) {
+        lists = lists.where((f) => compareSize(material, f.material)).toList();
+      }
+    } else {
+      // ประเภท
+      if (_chkPdtBottle) {
+        productType.add("bottle");
+      }
+      if (_chkPdtBathing) {
+        productType.add("bathing");
+      }
+      if (_chkPdtBathing) {
+        productType.add("mom");
+      }
+      if (productType.length > 0) {
         lists = lists
-            .where((f) => material.contains(f.material.toUpperCase()))
+            .where(
+                (f) => productType.contains(f.type.toString().split('.').last))
             .toList();
       }
-    } else {}
+
+      // ซีรี่
+      if (_chkSeriesBrain) {
+        series.add("brain");
+      }
+      if (_chkSeriesJewel) {
+        series.add("jewel");
+      }
+
+      if (series.length > 0) {
+        lists = lists
+            .where((f) => series.contains(f.series.toLowerCase()))
+            .toList();
+      }
+    }
 
     return lists;
   }
@@ -1198,31 +1320,28 @@ class _ProductState extends State<Product> {
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                color: Color.fromRGBO(243, 241, 242, 1),
-                child: Row(
-                  children: [
-                    Visibility(visible: _onFilter, child: _sideBarFilter()),
-                    Expanded(
-                        child: Container(
-                      // color: Colors.green,
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: _buildProductCard(),
-                    ))
-                  ],
-                ),
-              ),
-            ),
+            _renderBodyProduct()
+            // Expanded(
+            //   child: Container(
+            //     color: Color.fromRGBO(243, 241, 242, 1),
+            //     child: Row(
+            //       children: [
+            //         Visibility(visible: _onFilter, child: _sideBarFilter()),
+            //         Expanded(
+            //             child: Container(
+            //           // color: Colors.green,
+            //           padding: EdgeInsets.only(left: 10, right: 10),
+            //           child: _buildProductCard(),
+            //         ))
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ));
   }
 
-  Widget _buildProductCard() {
-    if (_productPage?.list == null) {
-      return Center();
-    }
-    List<ProductModel> rs = _filterData(_productPage.list);
+  Widget _buildProductCard(List<ProductModel> rs) {
     Locale myLocale = Localizations.localeOf(context);
     return rs.length > 0
         ? GridView.builder(

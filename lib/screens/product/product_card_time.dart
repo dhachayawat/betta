@@ -30,7 +30,8 @@ class ProductCardItem extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                      "assets/images/${item.type.toString().split('.').last}/${item.category}/${item.id}.jpg"),
+                      // "assets/images/${item.type.toString().split('.').last}/${item.category}/${item.id}.jpg"),
+                      "assets/images/bottle/wide/1.jpg"),
                 ),
               ),
             ),
