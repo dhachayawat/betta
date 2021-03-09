@@ -133,17 +133,22 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Container(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: <Widget>[
-            VideoPlayer(_videoPlayerController),
-            // ClosedCaption(text: _videoPlayerController.value.caption.text),
-            _ControlsOverlay(controller: _videoPlayerController),
-            VideoProgressIndicator(_videoPlayerController,
-                allowScrubbing: true),
-          ],
-        ),
-      ),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: <Widget>[
+              VideoPlayer(_videoPlayerController),
+              // ClosedCaption(text: _videoPlayerController.value.caption.text),
+              _ControlsOverlay(controller: _videoPlayerController),
+              VideoProgressIndicator(_videoPlayerController,
+                  allowScrubbing: true),
+            ],
+          ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/cover/betta_01.png'),
+              fit: BoxFit.cover,
+            ),
+          )),
     );
   }
 }

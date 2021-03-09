@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/data/
     - assets/images/
+    - assets/images/cover/
     - assets/images/bottle/wide/
     - assets/images/bottle/slim/
     - assets/images/accessories/bottle/
