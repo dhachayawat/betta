@@ -37,7 +37,7 @@ class ProductCardItem extends StatelessWidget {
             ),
           ),
           Container(
-            height: 120,
+            height: 70,
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(top: 5),
             // color: Colors.black,

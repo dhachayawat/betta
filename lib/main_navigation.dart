@@ -117,12 +117,12 @@ class _MainNavigationState extends State<MainNavigation>
               visible: bottomChange == 0,
               child: Positioned(
                   bottom: 0,
-                  right: ((0.5 * MediaQuery.of(context).size.width) / 2),
+                  right: ((0.6 * MediaQuery.of(context).size.width) / 2),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 85,
+                          height: 60,
                           // color: const Color(0xFF0E3311).withOpacity(0.5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -140,12 +140,12 @@ class _MainNavigationState extends State<MainNavigation>
                           alignment: Alignment.bottomCenter,
                           constraints: BoxConstraints(
                               maxWidth:
-                                  0.5 * MediaQuery.of(context).size.width),
+                                  0.4 * MediaQuery.of(context).size.width),
                           child: Stack(
                             children: [
                               Container(
+                                padding: EdgeInsets.only(top: 0),
                                 child: AnimatedBottomNavigationBar.builder(
-                                  height: 80,
                                   itemCount: iconList.length,
                                   tabBuilder: (int index, bool isActive) {
                                     final color = isActive
@@ -158,7 +158,7 @@ class _MainNavigationState extends State<MainNavigation>
                                       children: [
                                         Icon(
                                           iconList[index],
-                                          size: 28,
+                                          size: 18,
                                           color: color,
                                         ),
                                         const SizedBox(height: 4),
@@ -169,7 +169,7 @@ class _MainNavigationState extends State<MainNavigation>
                                               Translate.of(context)
                                                   .translate(_labelMenu[index]),
                                               style: TextStyle(
-                                                  color: color, fontSize: 14)),
+                                                  color: color, fontSize: 10)),
                                         )
                                       ],
                                     );
@@ -184,8 +184,8 @@ class _MainNavigationState extends State<MainNavigation>
                                   splashSpeedInMilliseconds: 300,
                                   notchSmoothness: NotchSmoothness.defaultEdge,
                                   gapLocation: GapLocation.none,
-                                  leftCornerRadius: 24,
-                                  rightCornerRadius: 24,
+                                  leftCornerRadius: 18,
+                                  rightCornerRadius: 18,
                                   onTap: (index) => _onItemTapped(index),
                                 ),
                               ),
@@ -197,7 +197,7 @@ class _MainNavigationState extends State<MainNavigation>
             Visibility(
               visible: bottomChange == 0,
               child: Positioned(
-                  bottom: 60,
+                  bottom: 30,
                   right: ((MediaQuery.of(context).size.width) - sizeFab) / 2,
                   child: ScaleTransition(
                     scale: animation,
@@ -207,7 +207,7 @@ class _MainNavigationState extends State<MainNavigation>
                       child: Icon(
                         Icons.home,
                         color: Colors.white,
-                        size: 32,
+                        size: 24,
                       ),
                       onPressed: () {
                         setState(() {

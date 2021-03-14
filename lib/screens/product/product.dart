@@ -716,10 +716,43 @@ class _ProductState extends State<Product> {
 
     product.forEach((item) {
       if (_tabSelect == 0) {
-        if (item.category == "brain") {
+        if (item.series == "brain") {
           countSeriesBrain++;
-        } else if (item.category == "jewel") {
+        } else if (item.series == "jewel") {
           countSeriesJewel++;
+        }
+
+        if (item.category == "slim") {
+          countTypeSlim++;
+        } else if (item.category == "wide") {
+          countTypeWide++;
+        }
+
+        if (item.size.contains("80ml")) {
+          countSize80++;
+        } else if (item.size.contains("120ml")) {
+          countSize120++;
+        } else if (item.size.contains("150ml")) {
+          countSize150++;
+        } else if (item.size.contains("200ml")) {
+          countSize200++;
+        } else if (item.size.contains("240ml")) {
+          countSize240++;
+        } else if (item.size.contains("320ml")) {
+          countSize320++;
+        }
+
+        if (item.material.contains("GLASS")) {
+          countMaterialGLASS++;
+        }
+        if (item.material.contains("PLASTIC")) {
+          countMaterialPLASTIC++;
+        }
+        if (item.material.contains("PPSU")) {
+          countMaterialPPSU++;
+        }
+        if (item.material.contains("PP")) {
+          countMaterialPP++;
         }
       } else {
         if (item.type.toString().split('.').last == "bottle") {
@@ -730,9 +763,9 @@ class _ProductState extends State<Product> {
           countPdtMom++;
         }
 
-        if (item.category == "brain") {
+        if (item.series == "brain") {
           countSeriesBrain++;
-        } else if (item.category == "jewel") {
+        } else if (item.series == "jewel") {
           countSeriesJewel++;
         }
       }
@@ -741,7 +774,7 @@ class _ProductState extends State<Product> {
     return Container(
       alignment: Alignment.topLeft,
       // color: Colors.grey,
-      width: 240,
+      width: 180,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -774,7 +807,7 @@ class _ProductState extends State<Product> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: 80,
+                            width: 70,
                             child: TextFormField(
                               focusNode: _focusStart,
                               cursorColor: Theme.of(context).primaryColor,
@@ -793,11 +826,11 @@ class _ProductState extends State<Product> {
                           ),
                           Container(
                             height: 2,
-                            width: 16,
+                            width: 8,
                             color: Colors.black38,
                           ),
                           Container(
-                            width: 80,
+                            width: 70,
                             child: TextFormField(
                               focusNode: _focusEnd,
                               cursorColor: Theme.of(context).primaryColor,
@@ -1190,7 +1223,8 @@ class _ProductState extends State<Product> {
       }
 
       if (material.length > 0) {
-        lists = lists.where((f) => compareSize(material, f.material)).toList();
+        lists =
+            lists.where((f) => compareMaterial(material, f.material)).toList();
       }
     } else {
       // ประเภท
@@ -1238,6 +1272,16 @@ class _ProductState extends State<Product> {
     return false;
   }
 
+  bool compareMaterial(List<dynamic> array1, List<dynamic> array2) {
+    List<dynamic> rs = array1
+        .where((item) => array2.contains(item.toString().toUpperCase()))
+        .toList();
+    if (rs.length > 0) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1264,7 +1308,7 @@ class _ProductState extends State<Product> {
         body: Column(
           children: [
             Container(
-              height: 140,
+              height: 110,
               color: Colors.white,
               padding: EdgeInsets.only(top: 20, left: 8, right: 8),
               child: Row(
@@ -1277,7 +1321,7 @@ class _ProductState extends State<Product> {
                           alignment: Alignment.centerLeft,
                           child: Container(
                               child: Image.asset('assets/images/logo-betta.png',
-                                  height: 56)),
+                                  height: 40)),
                         ),
                         Expanded(
                           child: Container(
@@ -1289,7 +1333,7 @@ class _ProductState extends State<Product> {
                     )),
                   ),
                   Container(
-                    width: 110,
+                    width: 90,
                     // color: Colors.amber,
                     child: Column(
                       children: [
@@ -1297,7 +1341,7 @@ class _ProductState extends State<Product> {
                             child: Container(
                           child: Image.asset(
                               'assets/images/logo-kidde-white.png',
-                              height: 56),
+                              height: 48),
                         )),
                         Divider(
                           color: Colors.grey,
@@ -1307,11 +1351,11 @@ class _ProductState extends State<Product> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Image.asset('assets/icons/facebook-black.png',
-                                height: 32),
+                                height: 24),
                             Image.asset('assets/icons/instagram-black.png',
-                                height: 32),
+                                height: 24),
                             Image.asset('assets/icons/line-black.png',
-                                height: 32)
+                                height: 24)
                           ],
                         ))
                       ],
@@ -1320,7 +1364,8 @@ class _ProductState extends State<Product> {
                 ],
               ),
             ),
-            _renderBodyProduct()
+            _renderBodyProduct(),
+
             // Expanded(
             //   child: Container(
             //     color: Color.fromRGBO(243, 241, 242, 1),
@@ -1346,10 +1391,10 @@ class _ProductState extends State<Product> {
     return rs.length > 0
         ? GridView.builder(
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 300,
-              childAspectRatio: 0.7,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
+              maxCrossAxisExtent: 280,
+              childAspectRatio: 0.9,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
             ),
             itemBuilder: (context, index) {
               final item = rs[index];
