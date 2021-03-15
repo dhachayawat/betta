@@ -728,17 +728,17 @@ class _ProductState extends State<Product> {
           countTypeWide++;
         }
 
-        if (item.size.contains("80ml")) {
+        if (item.size == "80ml") {
           countSize80++;
-        } else if (item.size.contains("120ml")) {
+        } else if (item.size == "120ml") {
           countSize120++;
-        } else if (item.size.contains("150ml")) {
+        } else if (item.size == "150ml") {
           countSize150++;
-        } else if (item.size.contains("200ml")) {
+        } else if (item.size == "200ml") {
           countSize200++;
-        } else if (item.size.contains("240ml")) {
+        } else if (item.size == "240ml") {
           countSize240++;
-        } else if (item.size.contains("320ml")) {
+        } else if (item.size == "320ml") {
           countSize320++;
         }
 
@@ -755,11 +755,11 @@ class _ProductState extends State<Product> {
           countMaterialPP++;
         }
       } else {
-        if (item.type.toString().split('.').last == "bottle") {
+        if (item.category == "bottle") {
           countPdtBottle++;
-        } else if (item.type.toString().split('.').last == "bathing") {
+        } else if (item.category == "bathing") {
           countPdtBathing++;
-        } else if (item.type.toString().split('.').last == "mom") {
+        } else if (item.category == "mom") {
           countPdtMom++;
         }
 
@@ -1205,7 +1205,8 @@ class _ProductState extends State<Product> {
       }
 
       if (size.length > 0) {
-        lists = lists.where((f) => compareSize(f.size, size)).toList();
+        lists =
+            lists.where((f) => size.contains(f.size.toLowerCase())).toList();
       }
 
       // วัสดุ
@@ -1238,10 +1239,7 @@ class _ProductState extends State<Product> {
         productType.add("mom");
       }
       if (productType.length > 0) {
-        lists = lists
-            .where(
-                (f) => productType.contains(f.type.toString().split('.').last))
-            .toList();
+        lists = lists.where((f) => productType.contains(f.category)).toList();
       }
 
       // ซีรี่

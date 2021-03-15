@@ -12,7 +12,7 @@ class ProductModel {
   final String category;
   final String series;
   final List<dynamic> material;
-  final List<dynamic> size;
+  final String size;
   final ProductType type;
   final int price;
 
@@ -55,7 +55,7 @@ class ProductModel {
       json['category'] as String ?? 'Unknown',
       json['series'] as String ?? 'Unknown',
       json['material'] as List<dynamic> ?? [],
-      json['size'] as List<dynamic> ?? [],
+      json['size'] as String ?? 'Unknown',
       json['price'] as int ?? 0,
       _setType(json['type']),
     );
