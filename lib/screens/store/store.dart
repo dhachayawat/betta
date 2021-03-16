@@ -1,3 +1,4 @@
+import 'package:betta/widgets/app_logo_header_social.dart';
 import 'package:flutter/material.dart';
 
 class Store extends StatefulWidget {
@@ -23,15 +24,35 @@ class _StoreState extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          elevation: 3,
-          leadingWidth: 110,
-          leading: Container(
-              child: Image.asset('assets/images/logo-betta.png', width: 120)),
-          actions: []),
-      body: Container(
-        color: Colors.blue,
-      ),
-    );
+        body: Column(children: [
+      Container(
+        height: 110,
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 20, left: 8, right: 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                  child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        child: Image.asset('assets/images/logo-betta.png',
+                            height: 40)),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                    ),
+                  )
+                ],
+              )),
+            ),
+            AppLogoHeaderSocial()
+          ],
+        ),
+      )
+    ]));
   }
 }

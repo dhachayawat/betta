@@ -1,3 +1,4 @@
+import 'package:betta/widgets/app_logo_header_social.dart';
 import 'package:flutter/material.dart';
 
 class Story extends StatefulWidget {
@@ -23,78 +24,35 @@ class _StoryState extends State<Story> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     elevation: 3,
-      //     leadingWidth: 110,
-      //     leading: Container(
-      //         child: Image.asset('assets/images/logo-betta.png', width: 120)),
-      //     actions: []),
-      body: DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 150.0,
-                floating: false,
-                // pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  // centerTitle: true,
-                  title: Text("Collapsing Toolbar",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      )),
-                  // background: Image.network(
-                  //   "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                  //   fit: BoxFit.cover,
-                  // )
-                ),
-              ),
-              SliverPersistentHeader(
-                delegate: _SliverAppBarDelegate(
-                  TabBar(
-                    labelColor: Colors.black87,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: [
-                      Tab(icon: Icon(Icons.info), text: "Tab 1"),
-                      Tab(icon: Icon(Icons.lightbulb_outline), text: "Tab 2"),
-                    ],
+        body: Column(children: [
+      Container(
+        height: 110,
+        color: Colors.white,
+        padding: EdgeInsets.only(top: 20, left: 8, right: 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                  child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                        child: Image.asset('assets/images/logo-betta.png',
+                            height: 40)),
                   ),
-                ),
-                pinned: true,
-              ),
-            ];
-          },
-          body: Center(
-            child: Text("Sample text"),
-          ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                    ),
+                  )
+                ],
+              )),
+            ),
+            AppLogoHeaderSocial()
+          ],
         ),
-      ),
-    );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._tabBar);
-
-  final TabBar _tabBar;
-
-  @override
-  double get minExtent => _tabBar.preferredSize.height;
-  @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      child: _tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
+      )
+    ]));
   }
 }

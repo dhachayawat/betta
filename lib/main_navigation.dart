@@ -122,7 +122,7 @@ class _MainNavigationState extends State<MainNavigation>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 60,
+                          height: 80,
                           // color: const Color(0xFF0E3311).withOpacity(0.5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(

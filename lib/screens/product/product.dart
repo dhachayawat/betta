@@ -2,6 +2,7 @@ import 'package:betta/api/api.dart';
 import 'package:betta/models/model.dart';
 import 'package:betta/models/screen_models/screen_models.dart';
 import 'package:betta/screens/product/product_card_time.dart';
+import 'package:betta/widgets/app_logo_header_social.dart';
 import 'package:flutter/services.dart';
 import 'package:betta/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -1330,35 +1331,7 @@ class _ProductState extends State<Product> {
                       ],
                     )),
                   ),
-                  Container(
-                    width: 90,
-                    // color: Colors.amber,
-                    child: Column(
-                      children: [
-                        Expanded(
-                            child: Container(
-                          child: Image.asset(
-                              'assets/images/logo-kidde-white.png',
-                              height: 48),
-                        )),
-                        Divider(
-                          color: Colors.grey,
-                        ),
-                        Expanded(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset('assets/icons/facebook-black.png',
-                                height: 24),
-                            Image.asset('assets/icons/instagram-black.png',
-                                height: 24),
-                            Image.asset('assets/icons/line-black.png',
-                                height: 24)
-                          ],
-                        ))
-                      ],
-                    ),
-                  ),
+                  AppLogoHeaderSocial()
                 ],
               ),
             ),
